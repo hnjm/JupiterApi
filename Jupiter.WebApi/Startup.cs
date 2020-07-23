@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using AngularEshop.Core.Utilities.Extensions.Connection;
+using Microsoft.OpenApi.Models;
 
 namespace Jupiter.WebApi
 {
@@ -33,6 +34,15 @@ namespace Jupiter.WebApi
 
             services.AddApplicationDbContext(Configuration);
 
+            #region Swagger
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            });
+
+            #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +58,13 @@ namespace Jupiter.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
