@@ -8,6 +8,8 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using AngularEshop.Core.Utilities.Extensions.Connection;
 using Microsoft.OpenApi.Models;
 using Jupiter.DataLayer.Repository;
+using Jupiter.Core.Services.Interfaces;
+using Jupiter.Core.Services.Implementations;
 
 namespace Jupiter.WebApi
 {
@@ -41,6 +43,12 @@ namespace Jupiter.WebApi
 
             services.AddApplicationDbContext(Configuration);
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            #endregion
+
+            #region Application Services
+
+            services.AddScoped<IUserService, UserService>();
 
             #endregion
 
