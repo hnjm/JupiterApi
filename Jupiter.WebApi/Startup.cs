@@ -7,6 +7,7 @@ using System.IO;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using AngularEshop.Core.Utilities.Extensions.Connection;
 using Microsoft.OpenApi.Models;
+using Jupiter.DataLayer.Repository;
 
 namespace Jupiter.WebApi
 {
@@ -26,13 +27,22 @@ namespace Jupiter.WebApi
         {
             services.AddControllers();
 
+            #region Configuration
+
             services.AddSingleton<IConfiguration>(
                 new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile($"appsettings.json")
                     .Build()
             );
 
+            #endregion
+
+            #region Add DbContext
+
             services.AddApplicationDbContext(Configuration);
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            #endregion
 
             #region Swagger
 
