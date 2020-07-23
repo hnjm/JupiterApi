@@ -10,6 +10,10 @@ using Microsoft.OpenApi.Models;
 using Jupiter.DataLayer.Repository;
 using Jupiter.Core.Services.Implementations;
 using Jupiter.Core.Services.Interfaces;
+using Jupiter.Core.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Jupiter.WebApi
 {
@@ -48,6 +52,7 @@ namespace Jupiter.WebApi
 
             #region Application Services
 
+            services.AddScoped<IPasswordHelper, PasswordHelper>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMessageService, MessageService>();
 
@@ -58,6 +63,39 @@ namespace Jupiter.WebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            });
+
+            #endregion
+
+            #region Authentication
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "https://localhost:5001",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JupiterJwtBearer"))
+                    };
+                });
+
+            #endregion
+
+            #region CORS
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCors", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .Build();
+                });
             });
 
             #endregion
@@ -74,7 +112,13 @@ namespace Jupiter.WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
+
+            app.UseCors("EnableCors");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
