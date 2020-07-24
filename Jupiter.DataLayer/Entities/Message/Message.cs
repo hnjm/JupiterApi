@@ -12,13 +12,13 @@ namespace Jupiter.DataLayer.Entities.Message
         [Display(Name = "توضیحات")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(10000, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند بیشتر از {1} باشد")]
-        public string Auther { get; set; }
-
+        public string Description { get; set; }
+        
 
         [Display(Name = "نویسنده")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(100, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند بیشتر از {1} باشد")]
-        public string Description { get; set; }
+        public string Auther { get; set; }
 
         [Display(Name = "پسندیدن")]
         public int? Like { get; set; }

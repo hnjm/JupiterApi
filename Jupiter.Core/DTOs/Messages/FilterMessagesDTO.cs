@@ -1,0 +1,34 @@
+﻿using Jupiter.Core.DTOs.Paging;
+using Jupiter.DataLayer.Entities.Message;
+using System.Collections.Generic;
+
+namespace Jupiter.Core.DTOs.Messages
+{
+    public class FilterMessagesDTO : BasePaging
+    {
+
+        public string Title { get; set; }
+
+        public List<Message> Messages { get; set; }
+
+        public FilterMessagesDTO SetPaging(BasePaging paging)
+        {
+            this.PageId = paging.PageId;
+            this.PageCount = paging.PageCount;
+            this.StartPage = paging.StartPage;
+            this.EndPage = paging.EndPage;
+            this.TakeEntity = paging.TakeEntity;
+            this.SkipEntity = paging.SkipEntity;
+            this.ActivePage = paging.ActivePage;
+            return this;
+        }
+
+        public FilterMessagesDTO SetProducts(List<Message> Messages)
+        {
+            this.Messages = Messages;
+            return this;
+        }
+
+
+    }
+}
