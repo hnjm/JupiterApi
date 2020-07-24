@@ -14,6 +14,7 @@ namespace Jupiter.Core.Services.Interfaces
         Task AddMessage(Message message);
         Task UpdateMessage(Message message);
         Task<FilterMessagesDTO> FilterMessages(FilterMessagesDTO filter);
+        Task<Message> GetMessageById(long messageId);
 
         #endregion
 

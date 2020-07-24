@@ -22,7 +22,7 @@ namespace Jupiter.WebApi.Controllers
         #region Messages
 
         [HttpGet("filter-messages")]
-        public async Task<IActionResult> GetProducts([FromQuery]FilterMessagesDTO filter)
+        public async Task<IActionResult> GetMessages([FromQuery]FilterMessagesDTO filter)
         {
             var products = await messageService.FilterMessages(filter);
 
@@ -34,14 +34,27 @@ namespace Jupiter.WebApi.Controllers
         #region get message categories
 
         [HttpGet("message-active-categories")]
-        public async Task<IActionResult> GetProductsCategories()
+        public async Task<IActionResult> GetMessagesCategories()
         {
             return JsonResponseStatus.Success(await messageService.GetAllActiveMessageCategories());
         }
 
         #endregion
 
+        #region get single message
 
+        [HttpGet("single-message/{id}")]
+        public async Task<IActionResult> GetMessage(long id)
+        {
+            var message = await messageService.GetMessageById(id);
+
+            if (message != null)
+                return JsonResponseStatus.Success(message);
+
+            return JsonResponseStatus.NotFound();
+        }
+
+        #endregion
 
     }
 }

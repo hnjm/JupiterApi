@@ -68,6 +68,11 @@ namespace Jupiter.Core.Services.Implementations
             return filter.SetProducts(messages).SetPaging(pager);
         }
 
+        public async Task<Message> GetMessageById(long messageId)
+        {
+            return await messageRepository.GetEntityById(messageId);
+        }
+
         #endregion
 
         #region Message categories
