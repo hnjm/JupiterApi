@@ -31,6 +31,16 @@ namespace Jupiter.WebApi.Controllers
 
         #endregion
 
+        #region get message categories
+
+        [HttpGet("message-active-categories")]
+        public async Task<IActionResult> GetProductsCategories()
+        {
+            return JsonResponseStatus.Success(await messageService.GetAllActiveMessageCategories());
+        }
+
+        #endregion
+
 
 
     }

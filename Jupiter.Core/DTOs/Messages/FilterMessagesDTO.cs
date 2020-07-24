@@ -11,6 +11,9 @@ namespace Jupiter.Core.DTOs.Messages
 
         public List<Message> Messages { get; set; }
 
+        public List<long> Categories { get; set; }
+
+
         public FilterMessagesDTO SetPaging(BasePaging paging)
         {
             this.PageId = paging.PageId;

@@ -6,6 +6,7 @@ using Jupiter.DataLayer.Entities.Message;
 using Jupiter.DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace Jupiter.Core.Services.Implementations
 
         #endregion
 
-
+        #region Message
 
         public async Task AddMessage(Message message)
         {
@@ -54,6 +55,10 @@ namespace Jupiter.Core.Services.Implementations
             if (!string.IsNullOrEmpty(filter.Title))
                 messagesQuery = messagesQuery.Where(s => s.Description.Contains(filter.Title));
 
+            if (filter.Categories != null && filter.Categories.Any())
+                messagesQuery = messagesQuery.SelectMany(s =>
+                        s.ProductSelectedCategories.Where(f => filter.Categories.Contains(f.MessageCategoryId)).Select(t => t.Message));
+
             var count = (int)Math.Ceiling(messagesQuery.Count() / (double)filter.TakeEntity);
 
             var pager = Pager.Build(count, filter.PageId, filter.TakeEntity);
@@ -62,6 +67,17 @@ namespace Jupiter.Core.Services.Implementations
 
             return filter.SetProducts(messages).SetPaging(pager);
         }
+
+        #endregion
+
+        #region Message categories
+
+        public async Task<List<MessageCategory>> GetAllActiveMessageCategories()
+        {
+            return await messageCategoryRepository.GetEntitiesQuery().Where(s => !s.IsDelete).ToListAsync();
+        }
+
+        #endregion
 
 
         #region dispose
