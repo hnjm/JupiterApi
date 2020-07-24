@@ -14,6 +14,7 @@ using Jupiter.Core.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Jupiter.Core.Utilities.Convertors;
 
 namespace Jupiter.WebApi
 {
@@ -31,6 +32,9 @@ namespace Jupiter.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddControllers();
 
             #region Configuration
@@ -53,6 +57,8 @@ namespace Jupiter.WebApi
             #region Application Services
 
             services.AddScoped<IPasswordHelper, PasswordHelper>();
+            services.AddScoped<IMailSender, SendEmail>();
+            services.AddScoped<IViewRenderService, RenderViewToString>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMessageService, MessageService>();
 

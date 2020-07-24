@@ -120,6 +120,24 @@ namespace Jupiter.WebApi.Controllers
 
         #endregion
 
+        #region Activate User Account
+
+        [HttpGet("activate-account/{id}")]
+        public async Task<IActionResult> ActivateAccount(string id)
+        {
+            var user = await userService.GetUserByEmailActiveCode(id);
+
+            if (user != null)
+            {
+                userService.ActivateUser(user);
+                return JsonResponseStatus.Success();
+            }
+
+            return JsonResponseStatus.NotFound();
+        }
+
+        #endregion
+
         #region Sign Out
 
         [HttpGet("sign-out")]

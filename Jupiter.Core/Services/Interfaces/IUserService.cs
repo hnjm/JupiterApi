@@ -14,5 +14,7 @@ namespace Jupiter.Core.Services.Interfaces
         Task<LoginUserResult> LoginUser(LoginUserDTO login);
         Task<User> GetUserByEmail(string email);
         Task<User> GetUserByUserId(long userId);
+        void ActivateUser(User user);
+        Task<User> GetUserByEmailActiveCode(string emailActiveCode);
     }
 }

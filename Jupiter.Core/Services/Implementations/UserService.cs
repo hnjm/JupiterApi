@@ -1,6 +1,7 @@
 ﻿using Jupiter.Core.DTOs.Account;
 using Jupiter.Core.Security;
 using Jupiter.Core.Services.Interfaces;
+using Jupiter.Core.Utilities.Convertors;
 using Jupiter.DataLayer.Entities.Account;
 using Jupiter.DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,15 @@ namespace Jupiter.Core.Services.Implementations
 
         private IGenericRepository<User> userRepository;
         private IPasswordHelper passwordHelper;
+        private IMailSender mailSender;
+        private IViewRenderService renderView;
 
-        public UserService(IGenericRepository<User> userRepository, IPasswordHelper passwordHelper)
+        public UserService(IGenericRepository<User> userRepository, IPasswordHelper passwordHelper, IMailSender mailSender, IViewRenderService renderView)
         {
             this.userRepository = userRepository;
             this.passwordHelper = passwordHelper;
+            this.mailSender = mailSender;
+            this.renderView = renderView;
         }
 
         #endregion
@@ -57,6 +62,10 @@ namespace Jupiter.Core.Services.Implementations
 
             await userRepository.SaveChanges();
 
+            var body = await renderView.RenderToStringAsync("Email/ActivateAccount", user);
+
+            mailSender.Send(user.Email, "فعال سازی حساب کاربری", body);
+
             return RegisterUserResult.Success;
         }
 
@@ -87,6 +96,19 @@ namespace Jupiter.Core.Services.Implementations
         public async Task<User> GetUserByUserId(long userId)
         {
             return await userRepository.GetEntityById(userId);
+        }
+
+        public void ActivateUser(User user)
+        {
+            user.IsActivated = true;
+            user.EmailActiveCode = Guid.NewGuid().ToString();
+            userRepository.UpdateEntity(user);
+            userRepository.SaveChanges();
+        }
+
+        public Task<User> GetUserByEmailActiveCode(string emailActiveCode)
+        {
+            return userRepository.GetEntitiesQuery().SingleOrDefaultAsync(s => s.EmailActiveCode == emailActiveCode);
         }
 
 
