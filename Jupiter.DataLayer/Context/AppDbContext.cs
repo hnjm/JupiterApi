@@ -36,6 +36,8 @@ namespace Jupiter.DataLayer.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
             var cascades = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())
                 .Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);

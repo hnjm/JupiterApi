@@ -8,6 +8,7 @@ using Jupiter.Core.DTOs.Account;
 using Jupiter.Core.Services.Interfaces;
 using Jupiter.Core.Utilities.Common;
 using Jupiter.Core.Utilities.Extensions.Identity;
+using Jupiter.DataLayer.Entities.Access;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -29,7 +30,7 @@ namespace Jupiter.WebApi.Controllers
 
         #region Register
 
-        [HttpPost("register")]
+        [HttpPost("register"), DisableRequestSizeLimit]
         public async Task<IActionResult> Register([FromBody] RegisterUserDTO register)
         {
             if (ModelState.IsValid)
@@ -67,6 +68,7 @@ namespace Jupiter.WebApi.Controllers
 
                     case LoginUserResult.Success:
                         var user = await userService.GetUserByEmail(login.Email);
+                        var userRole = await userService.GetUserRoleById(user.Id);
                         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JupiterJwtBearer"));
                         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                         var tokenOptions = new JwtSecurityToken(
@@ -89,6 +91,8 @@ namespace Jupiter.WebApi.Controllers
                             firstName = user.FirstName,
                             lastName = user.LastName,
                             userId = user.Id,
+                            avatar = user.Avatar,
+                            role = userRole
                         });
                 }
             }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jupiter.DataLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200723142354_InitMig")]
-    partial class InitMig
+    [Migration("20200728063211_UpdateUserRole")]
+    partial class UpdateUserRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,27 +55,27 @@ namespace Jupiter.DataLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreateDate = new DateTime(2020, 7, 23, 18, 53, 53, 407, DateTimeKind.Local).AddTicks(3791),
+                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 85, DateTimeKind.Local).AddTicks(388),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(3355),
+                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(5375),
                             Name = "Admin",
                             Title = "ادمین"
                         },
                         new
                         {
                             Id = 2L,
-                            CreateDate = new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5516),
+                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6486),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5609),
+                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6541),
                             Name = "Professor",
                             Title = "استاد"
                         },
                         new
                         {
                             Id = 3L,
-                            CreateDate = new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5652),
+                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6560),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5663),
+                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6565),
                             Name = "Student",
                             Title = "دانشجو"
                         });
@@ -126,7 +126,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Dateofbirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -135,8 +135,8 @@ namespace Jupiter.DataLayer.Migrations
                         .HasMaxLength(320);
 
                     b.Property<string>("EmailActiveCode")
-                        .HasColumnType("nvarchar(38)")
-                        .HasMaxLength(38);
+                        .HasColumnType("nvarchar(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -194,16 +194,16 @@ namespace Jupiter.DataLayer.Migrations
 
                     b.Property<string>("Auther")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(10000);
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10000);
 
                     b.Property<int?>("DisLike")
                         .HasColumnType("int");

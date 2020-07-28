@@ -25,8 +25,7 @@ namespace Jupiter.Core.DTOs.Account
         public string MembershipNumber { get; set; }
 
         [Display(Name = "تصویر کاربر")]
-        [MaxLength(150, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند بیشتر از {1} باشد")]
-        public string? Avatar { get; set; }
+        public string Avatar { get; set; }
 
         [Display(Name = "کد ملی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -42,7 +41,7 @@ namespace Jupiter.Core.DTOs.Account
 
         [Display(Name = "تاریخ تولد")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        public DateTime Dateofbirth { get; set; }
+        public string DateOfBirth { get; set; }
 
         [Display(Name = "جنسیت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

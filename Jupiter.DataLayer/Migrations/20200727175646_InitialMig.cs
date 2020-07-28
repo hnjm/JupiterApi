@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Jupiter.DataLayer.Migrations
 {
-    public partial class InitMig : Migration
+    public partial class InitialMig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,8 +40,8 @@ namespace Jupiter.DataLayer.Migrations
                     IsDelete = table.Column<bool>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     LastUpdateDate = table.Column<DateTime>(nullable: false),
-                    Auther = table.Column<string>(maxLength: 10000, nullable: false),
-                    Description = table.Column<string>(maxLength: 100, nullable: false),
+                    Description = table.Column<string>(maxLength: 10000, nullable: false),
+                    Auther = table.Column<string>(maxLength: 100, nullable: false),
                     Like = table.Column<int>(nullable: true),
                     DisLike = table.Column<int>(nullable: true),
                     IsImportant = table.Column<bool>(nullable: false)
@@ -83,11 +83,11 @@ namespace Jupiter.DataLayer.Migrations
                     Avatar = table.Column<string>(maxLength: 150, nullable: true),
                     NationalCode = table.Column<string>(maxLength: 10, nullable: false),
                     MobileNumber = table.Column<string>(maxLength: 13, nullable: false),
-                    Dateofbirth = table.Column<DateTime>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<bool>(nullable: false),
                     Email = table.Column<string>(maxLength: 320, nullable: false),
                     Password = table.Column<string>(maxLength: 100, nullable: false),
-                    EmailActiveCode = table.Column<string>(maxLength: 38, nullable: true),
+                    EmailActiveCode = table.Column<string>(maxLength: 8, nullable: true),
                     IsActivated = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -188,17 +188,12 @@ namespace Jupiter.DataLayer.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IsDelete = table.Column<bool>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    LastUpdateDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<long>(nullable: false),
                     RoleId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => x.Id);
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
@@ -216,17 +211,17 @@ namespace Jupiter.DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreateDate", "IsDelete", "LastUpdateDate", "Name", "Title" },
-                values: new object[] { 1L, new DateTime(2020, 7, 23, 18, 53, 53, 407, DateTimeKind.Local).AddTicks(3791), false, new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(3355), "Admin", "ادمین" });
+                values: new object[] { 1L, new DateTime(2020, 7, 27, 22, 26, 45, 720, DateTimeKind.Local).AddTicks(9052), false, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(8462), "Admin", "ادمین" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreateDate", "IsDelete", "LastUpdateDate", "Name", "Title" },
-                values: new object[] { 2L, new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5516), false, new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5609), "Professor", "استاد" });
+                values: new object[] { 2L, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9596), false, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9669), "Professor", "استاد" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreateDate", "IsDelete", "LastUpdateDate", "Name", "Title" },
-                values: new object[] { 3L, new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5652), false, new DateTime(2020, 7, 23, 18, 53, 53, 449, DateTimeKind.Local).AddTicks(5663), "Student", "دانشجو" });
+                values: new object[] { 3L, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9708), false, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9718), "Student", "دانشجو" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_MessageCategories_ParentId",
@@ -267,11 +262,6 @@ namespace Jupiter.DataLayer.Migrations
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                table: "UserRoles",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

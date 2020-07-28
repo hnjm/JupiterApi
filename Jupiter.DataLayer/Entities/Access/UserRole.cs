@@ -1,9 +1,11 @@
 ﻿using Jupiter.DataLayer.Entities.Account;
 using Jupiter.DataLayer.Entities.Common;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jupiter.DataLayer.Entities.Access
 {
-    public class UserRole : BaseEntity
+    public class UserRole: BaseEntity
     {
         #region properties
 

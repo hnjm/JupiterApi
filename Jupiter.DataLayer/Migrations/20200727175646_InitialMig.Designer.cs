@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jupiter.DataLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200724140440_UpdateMessageDescriptionMig")]
-    partial class UpdateMessageDescriptionMig
+    [Migration("20200727175646_InitialMig")]
+    partial class InitialMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,27 +55,27 @@ namespace Jupiter.DataLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreateDate = new DateTime(2020, 7, 24, 18, 34, 40, 150, DateTimeKind.Local).AddTicks(762),
+                            CreateDate = new DateTime(2020, 7, 27, 22, 26, 45, 720, DateTimeKind.Local).AddTicks(9052),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(2771),
+                            LastUpdateDate = new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(8462),
                             Name = "Admin",
                             Title = "ادمین"
                         },
                         new
                         {
                             Id = 2L,
-                            CreateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3825),
+                            CreateDate = new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9596),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3876),
+                            LastUpdateDate = new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9669),
                             Name = "Professor",
                             Title = "استاد"
                         },
                         new
                         {
                             Id = 3L,
-                            CreateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3895),
+                            CreateDate = new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9708),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3901),
+                            LastUpdateDate = new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9718),
                             Name = "Student",
                             Title = "دانشجو"
                         });
@@ -83,31 +83,15 @@ namespace Jupiter.DataLayer.Migrations
 
             modelBuilder.Entity("Jupiter.DataLayer.Entities.Access.UserRole", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
                 });
@@ -126,7 +110,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Dateofbirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -135,8 +119,8 @@ namespace Jupiter.DataLayer.Migrations
                         .HasMaxLength(320);
 
                     b.Property<string>("EmailActiveCode")
-                        .HasColumnType("nvarchar(38)")
-                        .HasMaxLength(38);
+                        .HasColumnType("nvarchar(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("FirstName")
                         .IsRequired()

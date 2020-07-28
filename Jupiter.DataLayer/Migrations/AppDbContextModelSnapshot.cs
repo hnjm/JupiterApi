@@ -53,27 +53,27 @@ namespace Jupiter.DataLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreateDate = new DateTime(2020, 7, 24, 18, 34, 40, 150, DateTimeKind.Local).AddTicks(762),
+                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 85, DateTimeKind.Local).AddTicks(388),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(2771),
+                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(5375),
                             Name = "Admin",
                             Title = "ادمین"
                         },
                         new
                         {
                             Id = 2L,
-                            CreateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3825),
+                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6486),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3876),
+                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6541),
                             Name = "Professor",
                             Title = "استاد"
                         },
                         new
                         {
                             Id = 3L,
-                            CreateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3895),
+                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6560),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 24, 18, 34, 40, 155, DateTimeKind.Local).AddTicks(3901),
+                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6565),
                             Name = "Student",
                             Title = "دانشجو"
                         });
@@ -124,7 +124,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Dateofbirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -133,8 +133,8 @@ namespace Jupiter.DataLayer.Migrations
                         .HasMaxLength(320);
 
                     b.Property<string>("EmailActiveCode")
-                        .HasColumnType("nvarchar(38)")
-                        .HasMaxLength(38);
+                        .HasColumnType("nvarchar(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("FirstName")
                         .IsRequired()

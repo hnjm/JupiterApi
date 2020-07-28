@@ -1,16 +1,22 @@
 ﻿using Jupiter.DataLayer.Entities.Access;
-using Jupiter.DataLayer.Entities.Common;
-using Jupiter.DataLayer.Entities.Message;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Jupiter.DataLayer.Entities.Account
+namespace Jupiter.Core.DTOs.User
 {
-    public class User : BaseEntity
+    public class UserDTO
     {
+        public long Id { get; set; }
+        public bool IsDelete { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime LastUpdateDate { get; set; }
 
-        #region properties
+        public bool IsActivated { get; set; }
+
+        [Display(Name = "نقش")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(50, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند بیشتر از {1} باشد")]
+        public string Role { get; set; }
 
         [Display(Name = "نام")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -48,8 +54,7 @@ namespace Jupiter.DataLayer.Entities.Account
 
         [Display(Name = "تاریخ تولد")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime Dateofbirth { get; set; }
 
         [Display(Name = "جنسیت")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -60,24 +65,5 @@ namespace Jupiter.DataLayer.Entities.Account
         [MaxLength(320, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند بیشتر از {1} باشد")]
         [MinLength(6, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند کمتر از {2} باشد")]
         public string Email { get; set; }
-
-        [Display(Name = "کلمه عبور")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(100, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند بیشتر از {1} باشد")]
-        [MinLength(6, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند کمتر از {2} باشد")]
-        public string Password { get; set; }
-
-        [MaxLength(8, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند بیشتر از {1} باشد")]
-        [MinLength(8, ErrorMessage = "تعداد کاراکتر های {0} نمیتواند کمتر از {2} باشد")] public string EmailActiveCode { get; set; }
-        public bool IsActivated { get; set; }
-
-        #endregion
-
-        #region Relations
-
-        public ICollection<UserRole> UserRoles { get; set; }
-        public ICollection<MessageComment> MessageComments { get; set; }
-        #endregion
-
     }
 }
