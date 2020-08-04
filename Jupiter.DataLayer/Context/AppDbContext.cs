@@ -1,6 +1,6 @@
 ﻿using Jupiter.DataLayer.Entities.Access;
 using Jupiter.DataLayer.Entities.Account;
-using Jupiter.DataLayer.Entities.Message;
+using Jupiter.DataLayer.Entities.Messages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -46,6 +46,7 @@ namespace Jupiter.DataLayer.Context
             {
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
 
             #region Seed Data Category
 

@@ -1,6 +1,6 @@
 ﻿using Jupiter.DataLayer.Entities.Access;
 using Jupiter.DataLayer.Entities.Common;
-using Jupiter.DataLayer.Entities.Message;
+using Jupiter.DataLayer.Entities.Messages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -77,6 +77,8 @@ namespace Jupiter.DataLayer.Entities.Account
 
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<MessageComment> MessageComments { get; set; }
+        public ICollection<Message> Messages { get; set; }
+
         #endregion
 
     }

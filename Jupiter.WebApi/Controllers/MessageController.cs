@@ -56,5 +56,12 @@ namespace Jupiter.WebApi.Controllers
 
         #endregion
 
+
+        [HttpGet("Messages")]
+        public async Task<IActionResult> Messages()
+        {
+            return new ObjectResult(await messageService.GetAllMessages());
+        }
+
     }
 }

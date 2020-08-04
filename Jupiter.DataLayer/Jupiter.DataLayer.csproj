@@ -5,6 +5,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200803081109_InitialMig.cs" />
+    <Compile Remove="Migrations\20200803081109_InitialMig.Designer.cs" />
+    <Compile Remove="Migrations\20200803081422_InitialMig.cs" />
+    <Compile Remove="Migrations\20200803081422_InitialMig.Designer.cs" />
+    <Compile Remove="Migrations\20200803085208_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803085208_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803085821_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803085821_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803090421_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803090421_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803091130_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803091130_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803091223_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803091223_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803091308_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803091308_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803144706_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803144706_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803145610_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803145610_MessageRelationWithUser.Designer.cs" />
+    <Compile Remove="Migrations\20200803150513_MessageRelationWithUser.cs" />
+    <Compile Remove="Migrations\20200803150513_MessageRelationWithUser.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6">
       <PrivateAssets>all</PrivateAssets>

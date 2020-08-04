@@ -1,5 +1,6 @@
 ﻿using Jupiter.Core.DTOs.Paging;
-using Jupiter.DataLayer.Entities.Message;
+using Jupiter.Core.DTOs.User;
+using Jupiter.DataLayer.Entities.Messages;
 using System.Collections.Generic;
 
 namespace Jupiter.Core.DTOs.Messages
@@ -9,7 +10,7 @@ namespace Jupiter.Core.DTOs.Messages
 
         public string Title { get; set; }
 
-        public List<Message> Messages { get; set; }
+        public List<MessagesDTO> Messages { get; set; }
 
         public List<long> Categories { get; set; }
 
@@ -26,7 +27,7 @@ namespace Jupiter.Core.DTOs.Messages
             return this;
         }
 
-        public FilterMessagesDTO SetProducts(List<Message> Messages)
+        public FilterMessagesDTO SetMessages(List<MessagesDTO> Messages)
         {
             this.Messages = Messages;
             return this;

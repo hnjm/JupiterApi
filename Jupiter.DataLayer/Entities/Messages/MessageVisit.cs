@@ -1,14 +1,14 @@
 ﻿using Jupiter.DataLayer.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 
-namespace Jupiter.DataLayer.Entities.Message
+namespace Jupiter.DataLayer.Entities.Messages
 {
     public class MessageVisit : BaseEntity
     {
 
         #region properties
 
-        public long MessageId { get; set; }
+        public long? MessageId { get; set; }
 
         [Display(Name = "IP")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

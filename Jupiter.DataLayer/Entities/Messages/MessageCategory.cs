@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jupiter.DataLayer.Entities.Message
+namespace Jupiter.DataLayer.Entities.Messages
 {
     public class MessageCategory : BaseEntity
     {

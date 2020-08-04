@@ -32,26 +32,6 @@ namespace Jupiter.DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IsDelete = table.Column<bool>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    LastUpdateDate = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(maxLength: 10000, nullable: false),
-                    Auther = table.Column<string>(maxLength: 100, nullable: false),
-                    Like = table.Column<int>(nullable: true),
-                    DisLike = table.Column<int>(nullable: true),
-                    IsImportant = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -93,6 +73,98 @@ namespace Jupiter.DataLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsDelete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(nullable: false),
+                    text = table.Column<string>(maxLength: 10000, nullable: false),
+                    Like = table.Column<int>(nullable: true),
+                    DisLike = table.Column<int>(nullable: true),
+                    IsImportant = table.Column<bool>(nullable: true),
+                    UserId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsDelete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<long>(nullable: false),
+                    RoleId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessageComments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsDelete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(nullable: false),
+                    MessageId = table.Column<long>(nullable: false),
+                    ParentId = table.Column<long>(nullable: true),
+                    UserId = table.Column<long>(nullable: false),
+                    Text = table.Column<string>(maxLength: 10000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MessageComments_Messages_MessageId",
+                        column: x => x.MessageId,
+                        principalTable: "Messages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MessageComments_MessageComments_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "MessageComments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MessageComments_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,81 +219,20 @@ namespace Jupiter.DataLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "MessageComments",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IsDelete = table.Column<bool>(nullable: false),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    LastUpdateDate = table.Column<DateTime>(nullable: false),
-                    MessageId = table.Column<long>(nullable: false),
-                    ParentId = table.Column<long>(nullable: true),
-                    UserId = table.Column<long>(nullable: false),
-                    Text = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MessageComments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MessageComments_Messages_MessageId",
-                        column: x => x.MessageId,
-                        principalTable: "Messages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MessageComments_MessageComments_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "MessageComments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MessageComments_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<long>(nullable: false),
-                    RoleId = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "CreateDate", "IsDelete", "LastUpdateDate", "Name", "Title" },
+                values: new object[] { 1L, new DateTime(2020, 8, 3, 12, 49, 18, 62, DateTimeKind.Local).AddTicks(8370), false, new DateTime(2020, 8, 3, 12, 49, 18, 69, DateTimeKind.Local).AddTicks(9992), "Admin", "ادمین" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreateDate", "IsDelete", "LastUpdateDate", "Name", "Title" },
-                values: new object[] { 1L, new DateTime(2020, 7, 27, 22, 26, 45, 720, DateTimeKind.Local).AddTicks(9052), false, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(8462), "Admin", "ادمین" });
+                values: new object[] { 2L, new DateTime(2020, 8, 3, 12, 49, 18, 70, DateTimeKind.Local).AddTicks(1710), false, new DateTime(2020, 8, 3, 12, 49, 18, 70, DateTimeKind.Local).AddTicks(1792), "Professor", "استاد" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreateDate", "IsDelete", "LastUpdateDate", "Name", "Title" },
-                values: new object[] { 2L, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9596), false, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9669), "Professor", "استاد" });
-
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "CreateDate", "IsDelete", "LastUpdateDate", "Name", "Title" },
-                values: new object[] { 3L, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9708), false, new DateTime(2020, 7, 27, 22, 26, 45, 729, DateTimeKind.Local).AddTicks(9718), "Student", "دانشجو" });
+                values: new object[] { 3L, new DateTime(2020, 8, 3, 12, 49, 18, 70, DateTimeKind.Local).AddTicks(1831), false, new DateTime(2020, 8, 3, 12, 49, 18, 70, DateTimeKind.Local).AddTicks(1843), "Student", "دانشجو" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_MessageCategories_ParentId",
@@ -244,6 +255,11 @@ namespace Jupiter.DataLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Messages_UserId",
+                table: "Messages",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MessageSelectedCategories_MessageCategoryId",
                 table: "MessageSelectedCategories",
                 column: "MessageCategoryId");
@@ -262,6 +278,11 @@ namespace Jupiter.DataLayer.Migrations
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_UserId",
+                table: "UserRoles",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

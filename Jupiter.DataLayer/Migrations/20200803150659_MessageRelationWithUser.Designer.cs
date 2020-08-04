@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jupiter.DataLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200728063211_UpdateUserRole")]
-    partial class UpdateUserRole
+    [Migration("20200803150659_MessageRelationWithUser")]
+    partial class MessageRelationWithUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,27 +55,27 @@ namespace Jupiter.DataLayer.Migrations
                         new
                         {
                             Id = 1L,
-                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 85, DateTimeKind.Local).AddTicks(388),
+                            CreateDate = new DateTime(2020, 8, 3, 19, 36, 58, 447, DateTimeKind.Local).AddTicks(9386),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(5375),
+                            LastUpdateDate = new DateTime(2020, 8, 3, 19, 36, 58, 453, DateTimeKind.Local).AddTicks(1290),
                             Name = "Admin",
                             Title = "ادمین"
                         },
                         new
                         {
                             Id = 2L,
-                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6486),
+                            CreateDate = new DateTime(2020, 8, 3, 19, 36, 58, 453, DateTimeKind.Local).AddTicks(2461),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6541),
+                            LastUpdateDate = new DateTime(2020, 8, 3, 19, 36, 58, 453, DateTimeKind.Local).AddTicks(2517),
                             Name = "Professor",
                             Title = "استاد"
                         },
                         new
                         {
                             Id = 3L,
-                            CreateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6560),
+                            CreateDate = new DateTime(2020, 8, 3, 19, 36, 58, 453, DateTimeKind.Local).AddTicks(2536),
                             IsDelete = false,
-                            LastUpdateDate = new DateTime(2020, 7, 28, 11, 2, 11, 89, DateTimeKind.Local).AddTicks(6565),
+                            LastUpdateDate = new DateTime(2020, 8, 3, 19, 36, 58, 453, DateTimeKind.Local).AddTicks(2542),
                             Name = "Student",
                             Title = "دانشجو"
                         });
@@ -185,25 +185,15 @@ namespace Jupiter.DataLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.Message", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.Message", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Auther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(10000);
 
                     b.Property<int?>("DisLike")
                         .HasColumnType("int");
@@ -211,7 +201,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsImportant")
+                    b.Property<bool?>("IsImportant")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("LastUpdateDate")
@@ -220,12 +210,23 @@ namespace Jupiter.DataLayer.Migrations
                     b.Property<int?>("Like")
                         .HasColumnType("int");
 
+                    b.Property<long?>("UserId")
+                        .IsRequired()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10000);
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageCategory", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageCategory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -261,7 +262,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.ToTable("MessageCategories");
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageComment", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageComment", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -277,7 +278,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("MessageId")
+                    b.Property<long?>("MessageId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("ParentId")
@@ -285,10 +286,10 @@ namespace Jupiter.DataLayer.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(10000);
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -302,7 +303,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.ToTable("MessageComments");
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageSelectedCategory", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageSelectedCategory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -333,7 +334,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.ToTable("MessageSelectedCategories");
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageVisit", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageVisit", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -349,7 +350,7 @@ namespace Jupiter.DataLayer.Migrations
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("MessageId")
+                    b.Property<long?>("MessageId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserID")
@@ -379,54 +380,57 @@ namespace Jupiter.DataLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageCategory", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.Message", b =>
                 {
-                    b.HasOne("Jupiter.DataLayer.Entities.Message.MessageCategory", "ParentCategory")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-                });
-
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageComment", b =>
-                {
-                    b.HasOne("Jupiter.DataLayer.Entities.Message.Message", "Message")
-                        .WithMany("MessageComments")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Jupiter.DataLayer.Entities.Message.MessageComment", "ParentComment")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
                     b.HasOne("Jupiter.DataLayer.Entities.Account.User", "User")
-                        .WithMany("MessageComments")
+                        .WithMany("Messages")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageSelectedCategory", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageCategory", b =>
                 {
-                    b.HasOne("Jupiter.DataLayer.Entities.Message.MessageCategory", "MessageCategory")
+                    b.HasOne("Jupiter.DataLayer.Entities.Messages.MessageCategory", "ParentCategory")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageComment", b =>
+                {
+                    b.HasOne("Jupiter.DataLayer.Entities.Messages.Message", "Message")
+                        .WithMany("MessageComments")
+                        .HasForeignKey("MessageId");
+
+                    b.HasOne("Jupiter.DataLayer.Entities.Messages.MessageComment", "ParentComment")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("Jupiter.DataLayer.Entities.Account.User", "User")
+                        .WithMany("MessageComments")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageSelectedCategory", b =>
+                {
+                    b.HasOne("Jupiter.DataLayer.Entities.Messages.MessageCategory", "MessageCategory")
                         .WithMany("MessageSelectedCategories")
                         .HasForeignKey("MessageCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Jupiter.DataLayer.Entities.Message.Message", "Message")
+                    b.HasOne("Jupiter.DataLayer.Entities.Messages.Message", "Message")
                         .WithMany("ProductSelectedCategories")
                         .HasForeignKey("MessageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Jupiter.DataLayer.Entities.Message.MessageVisit", b =>
+            modelBuilder.Entity("Jupiter.DataLayer.Entities.Messages.MessageVisit", b =>
                 {
-                    b.HasOne("Jupiter.DataLayer.Entities.Message.Message", "Message")
+                    b.HasOne("Jupiter.DataLayer.Entities.Messages.Message", "Message")
                         .WithMany("MessageVisits")
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MessageId");
                 });
 #pragma warning restore 612, 618
         }

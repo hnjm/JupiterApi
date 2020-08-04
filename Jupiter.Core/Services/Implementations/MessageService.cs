@@ -2,7 +2,7 @@
 using Jupiter.Core.DTOs.Paging;
 using Jupiter.Core.Services.Interfaces;
 using Jupiter.Core.Utilities.Paging;
-using Jupiter.DataLayer.Entities.Message;
+using Jupiter.DataLayer.Entities.Messages;
 using Jupiter.DataLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -50,10 +50,10 @@ namespace Jupiter.Core.Services.Implementations
 
         public async Task<FilterMessagesDTO> FilterMessages(FilterMessagesDTO filter)
         {
-            var messagesQuery = messageRepository.GetEntitiesQuery().AsQueryable();
+            var messagesQuery = messageRepository.GetEntitiesQuery().Where(w => w.IsDelete == false).AsQueryable();
 
             if (!string.IsNullOrEmpty(filter.Title))
-                messagesQuery = messagesQuery.Where(s => s.Description.Contains(filter.Title));
+                messagesQuery = messagesQuery.Where(s => s.text.Contains(filter.Title));
 
             if (filter.Categories != null && filter.Categories.Any())
                 messagesQuery = messagesQuery.SelectMany(s =>
@@ -63,14 +63,44 @@ namespace Jupiter.Core.Services.Implementations
 
             var pager = Pager.Build(count, filter.PageId, filter.TakeEntity);
 
-            var messages = await messagesQuery.Paging(pager).ToListAsync();
+            var messages = await messagesQuery.Paging(pager).Select(s => new MessagesDTO {
+            text = s.text,
+            Like = s.Like,
+            IsImportant = s.IsImportant,
+            DisLike = s.DisLike,
+            AuthorAvatar = s.User.Avatar,
+            AuthorFirstName = s.User.FirstName,
+            AuthorLastName = s.User.LastName,
+            AuthorGender = s.User.Gender,
+            AuthorMembershipNumber = s.User.MembershipNumber
+            }).ToListAsync();
 
-            return filter.SetProducts(messages).SetPaging(pager);
+            return filter.SetMessages(messages).SetPaging(pager);
         }
 
         public async Task<Message> GetMessageById(long messageId)
         {
             return await messageRepository.GetEntityById(messageId);
+        }
+
+        public async Task<List<GetAllMessagesDTO>> GetAllMessages()
+        {
+            return await messageRepository.GetEntitiesQuery()
+                .Include(u => u.User)
+                .Select(s => new GetAllMessagesDTO { 
+                    CreateDate = s.CreateDate,
+                    DisLike = s.DisLike,
+                    Id = s.Id,
+                    IsImportant = s.IsImportant,
+                    Like = s.Like,
+                    text = s.text,
+                    AuthorAvatar =s.User.Avatar,
+                    AuthorFirstName = s.User.FirstName,
+                    AuthorLastName = s.User.LastName,
+                    AuthorGender = s.User.Gender,
+                    AuthorMembershipNumber = s.User.MembershipNumber
+                })
+                .ToListAsync();
         }
 
         #endregion
@@ -95,6 +125,7 @@ namespace Jupiter.Core.Services.Implementations
             messageSelectedCategoryRepository?.Dispose();
             messageVisitRepository?.Dispose();
         }
+
 
         #endregion
 

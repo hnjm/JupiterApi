@@ -76,6 +76,7 @@ namespace Jupiter.WebApi.Controllers
                             claims: new List<Claim>
                             {
                                 new Claim(ClaimTypes.Name, user.Email),
+                                new Claim(ClaimTypes.Role, userRole),
                                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                             },
                             expires: DateTime.Now.AddDays(30),
@@ -92,7 +93,9 @@ namespace Jupiter.WebApi.Controllers
                             lastName = user.LastName,
                             userId = user.Id,
                             avatar = user.Avatar,
-                            role = userRole
+                            role = userRole,
+                            email = user.Email,
+                            gender = user.Gender,
                         });
                 }
             }
@@ -110,12 +113,17 @@ namespace Jupiter.WebApi.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = await userService.GetUserByUserId(User.GetUserId());
+                var userRole = await userService.GetUserRoleById(user.Id);
+
                 return JsonResponseStatus.Success(new
                 {
                     userId = user.Id,
                     firstName = user.FirstName,
                     lastName = user.LastName,
+                    avatar = user.Avatar,
                     email = user.Email,
+                    gender = user.Gender,
+                    role = userRole,
                 });
             }
 
@@ -123,6 +131,8 @@ namespace Jupiter.WebApi.Controllers
         }
 
         #endregion
+
+
 
         #region Activate User Account
 

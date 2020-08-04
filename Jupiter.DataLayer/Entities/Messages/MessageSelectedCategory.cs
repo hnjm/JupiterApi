@@ -1,6 +1,6 @@
 ﻿using Jupiter.DataLayer.Entities.Common;
 
-namespace Jupiter.DataLayer.Entities.Message
+namespace Jupiter.DataLayer.Entities.Messages
 {
     public class MessageSelectedCategory : BaseEntity
     {
